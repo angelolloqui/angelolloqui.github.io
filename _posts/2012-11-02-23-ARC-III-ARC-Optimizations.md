@@ -24,7 +24,7 @@ First, lets copy again the resulting ARC compiled code seen in [the first post](
     objc_release(foo);
     
 
-As commented in [the previous post](http://angelolloqui.com/blog/22-ARC-II-Advantages-drawbacks-and-false-myths), at a first glance this seems to introduce some overhead. It calls objc_retainAutoreleaseReturnValue function for presumably retaining and autoreleasing a variable (to ensure the memory is returned autoreleased without modifying the retain count). Then, the receiver calls to  objc_retainAutoreleasedReturnValue (note is **not** the same method than objc_retainAutoreleaseReturnValue) which seems to retain the autoreleased object (and protect it from premature release due to a pool drain) and finally the memory is released (to keep the retain count balance). In brief, the performed memory calls seems to be:
+As commented in [the previous post](./22-ARC-II-Advantages-drawbacks-and-false-myths), at a first glance this seems to introduce some overhead. It calls objc_retainAutoreleaseReturnValue function for presumably retaining and autoreleasing a variable (to ensure the memory is returned autoreleased without modifying the retain count). Then, the receiver calls to  objc_retainAutoreleasedReturnValue (note is **not** the same method than objc_retainAutoreleaseReturnValue) which seems to retain the autoreleased object (and protect it from premature release due to a pool drain) and finally the memory is released (to keep the retain count balance). In brief, the performed memory calls seems to be:
 
 ```
   +1 retain      //objc\_retainAutoreleaseReturnValue(foo\_);

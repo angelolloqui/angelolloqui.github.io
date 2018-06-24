@@ -10,9 +10,9 @@ categories:
 permalink: /blog/:title
 ---
 
-In [previous chapters](http://angelolloqui.com/blog/26-MVC-in-Objective-C-I-Introduction) we have exposed how the MVC pattern separate concerns in three layers and we have analyzed how to correctly implement the Model layer into your iOS project. In this post, I am going to continue with the next element in the MVC roles: the View role.
+In [previous chapters](./26-MVC-in-Objective-C-I-Introduction) we have exposed how the MVC pattern separate concerns in three layers and we have analyzed how to correctly implement the Model layer into your iOS project. In this post, I am going to continue with the next element in the MVC roles: the View role.
 
-The View role is the responsible for handling all the UI layer. Ideally, this role should not know anything or very little about the associated [controller](http://angelolloqui.com/blog/34-MVC-in-Objective-C-IV-The-Controller-layer) and [model](http://angelolloqui.com/blog/27-MVC-in-Objective-C-II-Model) layer (at most how to use the model, but not how to perform direct interaction/manipulation on it). In an iOS project this layer is implemented by the UIView class (and subclasses) together with the Interface Builder files.
+The View role is the responsible for handling all the UI layer. Ideally, this role should not know anything or very little about the associated [controller](./34-MVC-in-Objective-C-IV-The-Controller-layer) and [model](./27-MVC-in-Objective-C-II-Model) layer (at most how to use the model, but not how to perform direct interaction/manipulation on it). In an iOS project this layer is implemented by the UIView class (and subclasses) together with the Interface Builder files.
 
 As we saw in the Model post, there are many ways and tricks to implement this role in a project, but I will try to summarize all the best practices and tools that I have found so far, not only regarding MVC but also as general View related suggestions. As usual, you might be already using many or not agree with some of them, but hopefully you will get some fresh air out of it. So lets start with my suggestions because the list long!
 

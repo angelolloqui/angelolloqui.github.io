@@ -95,4 +95,4 @@ In this example, assigning a new value to \[self foo\] will release its memory a
 
 #### What’s next?
 
-[In my next post](http://angelolloqui.com/blog/22-ARC-II-Advantages-drawbacks-and-false-myths) I’ll analyze some false myths about ARC as well as some of the advantages and drawbacks that you could encounter when working with it.
+[In my next post](./22-ARC-II-Advantages-drawbacks-and-false-myths) I’ll analyze some false myths about ARC as well as some of the advantages and drawbacks that you could encounter when working with it.

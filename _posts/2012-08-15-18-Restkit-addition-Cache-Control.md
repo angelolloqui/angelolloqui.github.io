@@ -19,7 +19,7 @@ RestKit, between many other things, have a feature to set the cache policy that 
 
 #### Installation
 
-The code above uses [MethodSwizzling](http://angelolloqui.com/blog/15-Method-Swizzling) to add the specific “Cache-Control” behaviour on runtime, which makes it completely transparent for the developer. You don’t need to change your code, just import the two files in your project and you are done! the swizzling will do the rest. It will also work even if you are using subclasses of RKRequest.
+The code above uses [MethodSwizzling](./15-Method-Swizzling) to add the specific “Cache-Control” behaviour on runtime, which makes it completely transparent for the developer. You don’t need to change your code, just import the two files in your project and you are done! the swizzling will do the rest. It will also work even if you are using subclasses of RKRequest.
 
 #### Use
 

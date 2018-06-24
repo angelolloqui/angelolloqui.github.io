@@ -34,7 +34,7 @@ As commented, both languages are very similar. In fact, they are so similar that
 
 *   **Kotlin has no tuples**: Tuples are not implemented in Kotlin, so you will find yourself creating small data classes as counterpart for Swift tuples.
 
-*   **Kotlin has no typealias**: I just found out that it is in the roadmap for 1.1 but at the moment (Kotlin 1.0.4) there is no typealias, so patterns like the one I explained [in this previous post](http://angelolloqui.com/blog/37-Swifty-names-for-modules-protocols-and-implementation-classes) are not possible yet.
+*   **Kotlin has no typealias**: I just found out that it is in the roadmap for 1.1 but at the moment (Kotlin 1.0.4) there is no typealias, so patterns like the one I explained [in this previous post](./37-Swifty-names-for-modules-protocols-and-implementation-classes) are not possible yet.
 
 *   **Kotlin has no guard statement**: In Swift, guard statements are a more expressive way for checking conditions of some function than the standard if sentence. In Kotlin, you need to stay with the if check and reverse the condition.
 

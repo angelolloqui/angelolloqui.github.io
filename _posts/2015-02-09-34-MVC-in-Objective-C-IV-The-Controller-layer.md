@@ -11,12 +11,12 @@ permalink: /blog/:title
 
 #### Disclaimer
 
-It has been a long time since I started with the [MVC post series](http://angelolloqui.com/blog/26-MVC-in-Objective-C-I-Introduction). It is not that I didn’t want to write about it, but by the time I was supposed to start with this post [Objc.io](http://www.objc.io/issue-1/) came with a very good issue on [View Controllers](http://www.objc.io/issue-1/), which made my post almost irrelevant as most of the ideas were already mentioned there. Anyway, after receiving quite a lot of messages asking for this post, I finally decided to spend some time and try to address some new points and explain those that are important. That being said, if you haven’t read objc.io issue do not hesitate because it is worth the time and an excellent complement for this post.
+It has been a long time since I started with the [MVC post series](./26-MVC-in-Objective-C-I-Introduction). It is not that I didn’t want to write about it, but by the time I was supposed to start with this post [Objc.io](http://www.objc.io/issue-1/) came with a very good issue on [View Controllers](http://www.objc.io/issue-1/), which made my post almost irrelevant as most of the ideas were already mentioned there. Anyway, after receiving quite a lot of messages asking for this post, I finally decided to spend some time and try to address some new points and explain those that are important. That being said, if you haven’t read objc.io issue do not hesitate because it is worth the time and an excellent complement for this post.
 
 The controller role
 -------------------
 
-In MVC, the Controller is the part of your software that **communicates** your [**Model**](http://angelolloqui.com/blog/27-MVC-in-Objective-C-II-Model) layer with your [**View**](http://angelolloqui.com/blog/29-MVC-in-Objective-C-III-The-view-layer) layer, and it is by far the most abused role in iOS project. But lets first define how a good controller should look like:
+In MVC, the Controller is the part of your software that **communicates** your [**Model**](./27-MVC-in-Objective-C-II-Model) layer with your [**View**](./29-MVC-in-Objective-C-III-The-view-layer) layer, and it is by far the most abused role in iOS project. But lets first define how a good controller should look like:
 
 A good controller should know how to request data to the model but not its internal details or how to fetch it; it should know what view to use but not how to draw it; it should be the one receiving events from one layer and passing messages to the other layer but not the one creating the events. In brief, a Controller should be the glue needed to connect the Model and the View, but ideally it should not do anything else than that.
 
