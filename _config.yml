@@ -6,7 +6,7 @@ email:
 author:      Angel G. Olloqui
 description: "IT blog and CV"
 baseurl:     ""
-url:         ""
+url:         "https://angelolloqui.github.io"
 date_format: "%b %-d, %Y"
 blogurl: "/blog"
 
