@@ -70,6 +70,7 @@ Here are some of the different parts side to side:
 
 ##### RestaurantSearch
 
+``` swift
     //RestaurantSearch.swift
     public struct RestaurantSearch {
         public let totalResults: Int
@@ -86,7 +87,8 @@ Here are some of the different parts side to side:
             self.restaurants = unboxer.unbox(key: "restaurants")
         }
     }
-
+```
+``` kotlin
     //RestaurantSearch.kt
     public data class RestaurantSearch(
            @JsonProperty("total_entries") public val totalResults: Int,
@@ -94,7 +96,7 @@ Here are some of the different parts side to side:
            @JsonProperty("current_page") public val currentPage: Int,
            @JsonProperty("per_page") public val resultsPerPage: Int
     )
-
+```
 String similarity: **47.45%**
 
 RestaurantSearch is a data class containing a search response. You can see in this particular case that both have the **same external API, but a different internal implementation**. In the Swift case we are using [Unbox](https://github.com/johnsundell/unbox) for JSON mapping, while in Kotlin we use [Jackson](https://github.com/FasterXML/jackson). Here we can see the first issue that was commented above: library differences. The good news are that it is an implementation detail that will not affect how you use the object at all, and that you could probably find (or build) a different mapping library that looks in the same way (or at least much more similar) in both platforms.
