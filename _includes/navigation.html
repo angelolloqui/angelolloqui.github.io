@@ -1,0 +1,24 @@
+<ul id="main-menu" data-nav-showing="false" style="transform: translate(0%, -116%) matrix(1, 0, 0, 1, 0, 0);">
+  <!-- <li class="nav-jr home-anc"><h4><a href="#home"><br></a></h4></li> -->
+  <div class="flexbox-parent">
+    <div class="flexbox-child">
+      <li class="about-anc">
+        <h4><a class="nav-underline home" href="{{site.url}}">About me</a></h4>
+      </li>
+      <li class="about-anc">
+        <h4><a class="nav-underline home" href="{{site.url}}/blog">Blog</a></h4>
+      </li>
+      <li class="about-anc">
+          <h4><a class="nav-underline home" href="{{site.url}}/open-source">Open Source</a></h4>
+      </li>
+      {% if site.show_social_icons %}
+      <li>      
+        {% include social_links.html %}      
+      </li>
+      {% endif %}
+  </div>
+</ul>
+<!--
+<div class="title-div">
+  <div class="title" style="transform: translate(0%, -116%) matrix(1, 0, 0, 1, 0, 0);"><span class="title-label">About</span></div>
+</div> -->

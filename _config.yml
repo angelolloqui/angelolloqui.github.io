@@ -1,41 +1,142 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely edit after that. If you find
-# yourself editing this file very often, consider using Jekyll's data files
-# feature for the data you need to update frequently.
-#
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
+######################################
+## Site settings                    ##
+######################################
+title:       Angel G. Olloqui personal website
+email:
+author:      Angel G. Olloqui
+description: "IT blog and CV"
+baseurl:     ""
+url:         "https://angelolloqui.com/"
+date_format: "%b %-d, %Y"
+blogurl: "/blog"
 
-# Site settings
-# These are used to personalize your new site. If you look in the HTML files,
-# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
-# You can create any custom variable you would like, and they will be accessible
-# in the templates via {{ site.myvariable }}.
-title: Angel G. Olloqui personal website
-email: angelgarcia.mail@gmail.com
-description: >- # this means to ignore newlines until "baseurl:"
-  Personal website and IT blog
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+# Google services
+google_verification:
+# Use either direct GA implementation or set up GTM account
+# - using both will skew your data (leave blank to not use at all)
+google_analytics:
+google_tag_manager:
+# Bing services
+bing_verification:
+
+######################################
+## Optional features                ##
+######################################
+animated:             false
+show_related_posts:   false
+show_post_footers:    True
+show_social_icons:    True
+ajaxify_contact_form: false
+enable_mathjax: false
+extended_fonts: false
+enable_anchorjs: false
+
+######################################
+## Optional site sections           ##
+######################################
+show_talks_section:     true
+show_workshops_section: true
+
+######################################
+## Disqus post comments             ##
+## (leave blank to disable Disqus)  ##
+######################################
+disqus_shortname:
+
+##########################################################################
+## Facebook Comments plugin                                             ##
+## (leave blank to disable Facebook Comments, otherwise set it to true) ##
+##########################################################################
+facebook_comments:
+facebook_appid:
+facebook_comments_number: 10
+
+###################################
+## Social icons                  ##
+###################################
+github_username: angelolloqui
+bitbucket_username:
+stackoverflow_id: angelolloqui
 twitter_username: angelolloqui
-github_username:  angelolloqui
+skype_username:
+steam_nickname:
+google_plus_id:
+linkedin_username: angelolloqui
+angellist_username:
+medium_id:
+youtube_channel_id:
+bitcoin_url:
+paypal_url:
+flattr_button:
 
-# Build settings
-markdown: kramdown
-theme: minima
-plugins:
-  - jekyll-feed
+###################################
+## Post sharing icons            ##
+###################################
+show_sharing_icons: True
+# Change to 'true' to enable individual icons
+share_facebook: True
+share_twitter: True
+share_googleplus: True
+share_linkedin: false
+share_digg: false
+share_tumblr: false
+share_reddit: True
+share_stumbleupon: false
+share_hackernews: True
 
-# Exclude from processing.
-# The following items will not be processed, by default. Create a custom list
-# to override the default setting.
-# exclude:
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+text:
+  pagination:
+    newer: 'Newer'
+    older: 'Older'
+  share_buttons:
+    text:         'Share this post!'
+    facebook:     'Share on Facebook'
+    twitter:      'Share on Twitter'
+    googleplus:   'Share on Google+'
+    linkedin:     'Share on LinkedIn'
+    digg:         'Share on Digg'
+    tumblr:       'Share on Tumblr'
+    reddit:       'Share on Reddit'
+    stumbleupon:  'Share on StumbleUpon'
+    hackernews:   'Share on Hacker News'
+  post:
+    updated:        'Updated'
+    minute_read:    'minute read'
+    related_posts:  'Related Posts'
+  index:
+    coming_soon: 'Coming soon...'
+  contact:
+    email:    'Email Address'
+    content:  'What would you like to say?'
+    subject:  'New submission!'
+    submit:   'Say Hello'
+    ajax:
+      sending:  'sending..'
+      sent:     'Message sent!'
+      error:    'Error!'
+  thanks: 'Thanks for contacting us. We will reply as soon as possible.'
+  og_locale: 'en_US'
+
+############################################
+## Build settings                         ##
+############################################
+markdown:     kramdown
+redcarpet:
+  extensions: ['smart', 'tables', 'with_toc_data', 'footnotes']
+permalink:    pretty
+paginate:     5
+paginate_path: "/blog/page-:num/"
+sass:
+  compressed: true
+gems:
+  - jekyll-paginate
+  - jekyll-sitemap
+# https://github.com/jekyll/jekyll/issues/2938
+exclude: [vendor]
+
+#################################################
+## Collections (for 'Design' section of site)  ##
+#################################################
+collections:
+  portfolio:
+    output: true

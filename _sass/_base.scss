@@ -1,0 +1,34 @@
+@charset "UTF-8";
+/*!
+
+Junior Theme
+
+A striking black-white Jekyll theme to be used as a blog, portfolio.
+
+Built upon BASSCSS (http://jxnblk.github.io/basscss).
+
+Crafted with <3 by Jonathon Belotti (@jonobelotti_IO) - ©2017 Jonathon Belotti
+MIT License http://opensource.org/licenses/MIT
+
+*/
+
+html, body {
+  z-index: -10;
+  height: auto;
+  min-height: 100%;
+}
+
+img {
+  max-width: 100%;
+}
+
+em img {
+  max-width: 100%;
+  margin-left: 0;
+}
+
+body {
+          box-sizing: border-box;
+     -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
