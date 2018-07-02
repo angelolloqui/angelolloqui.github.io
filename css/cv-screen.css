@@ -51,7 +51,7 @@ table {
 
 body {
 	font: normal normal 400;
-	font-size: 80%;
+	font-size: 90%;
 	line-height: 1.5em;
 	/* font-family: Verdana, sans-serif; */
 	font-family: "Open sans", sans-serif;
@@ -62,7 +62,9 @@ p {
 	left: 25%;
 	margin-bottom: 0.7em;
 	margin-right: 0;
-	width: 65%;
+	width: 75%;
+	text-align: justify;
+	top: -18px;
 }
 
 #resume code {
@@ -76,13 +78,15 @@ p {
 	position: absolute;
 	left: -12%;
 	background-color: #fff;
+	width: 10%;
+	text-align: right;
 }
 
 
 #resume ul {
 	position: relative;
 	left: 25%;
-	width: 65%;
+	width: 75%;
 	margin-bottom: 1.5em;
 	margin-top: 1em;
   columns: 3;
@@ -104,7 +108,7 @@ li ul {
 #resume h1, #resume h2, #resume h3, #resume h4 {
 	font-weight: 400;
 	/*font-family: Cousine,Verdana,sans-serif;*/
-	width: 65%;
+	width: 75%;
 }
 
 h1 {
@@ -136,7 +140,7 @@ h1+p {
 	position: relative;
 	top: 1.4em;
 	text-align: right;
-	width: 15%;
+	width: 14%;
 }
 
 #resume h3 {
@@ -146,7 +150,7 @@ h1+p {
 	position: relative;
 	top: 1.7em;
 	text-align: right;
-	width: 15%;
+	width: 14%;
 }
 
 a {
@@ -200,6 +204,54 @@ strong {
 #main-menu a {
 	font-size: 1.2em;
 }
+
+
+.skillset {
+	position: relative;
+	left: 25%;
+	width: 75%;	
+	display: table;
+}
+
+
+.skillset .header {
+	margin-top: 25px;
+	margin-bottom: 15px;
+	overflow: hidden;
+	display: table-row;
+	font-weight: bold;
+}
+
+.skillset .item {
+	margin-bottom: 15px;
+	overflow: hidden;
+	display: table-row;
+}
+
+.skillset .level-spacer {
+	display: table-row;
+}
+
+.skillset .level-title {
+	margin-top: 0;
+	margin-bottom: 12px;
+	display: table-cell;
+}
+
+.skillset .level-bar {
+	height: 12px;
+	background: #eee;
+	display: table-cell;
+	width: 20%;	
+	border: 4px solid #fff;	
+}
+
+.skillset .level-bar-inner {
+	height: 12px;
+	background: #aaa;
+	height: 100%;
+}
+
 
 @media only screen and (max-width: 480px) {
 	h2 {
