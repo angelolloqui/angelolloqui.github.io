@@ -11,11 +11,11 @@ permalink: /blog/:title
 
 Naming conventions are very important in software development for many reasons, but especially **for readability**. [According to Wikipedia](https://en.wikipedia.org/wiki/Naming_convention_(programming)): 
 
-Reasons for using a naming convention (as opposed to allowing programmers to choose any character sequence) include the following:
-
-*   to reduce the effort needed to read and understand source code
-*   to enable code reviews to focus on more important issues than arguing over syntax and naming standards.
-*   to enable code quality review tools to focus their reporting mainly on significant issues other than syntax and style preferences.
+> Reasons for using a naming convention (as opposed to allowing programmers to choose any character sequence) include the following:
+>
+> *   to reduce the effort needed to read and understand source code
+>*   to enable code reviews to focus on more important issues than arguing over syntax and naming standards.
+> *   to enable code quality review tools to focus their reporting mainly on significant issues other than syntax and style preferences.
 
 So, what is a good name? This issue is controversial because there are multiple dogmas and styles out there. In Swift, despite being a young language, naming conventions are quite established already (with Swift 3), and includes guidelines about casing, naming parameters, methods,... However, there is **no “defacto” way to name your implementation classes** when you use protocols as a public abstract API and **how to group code inside namespaces/modules**. 
 
