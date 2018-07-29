@@ -69,6 +69,9 @@ __Computer Engineering Degree, Universidad Autónoma de Madrid__, General IT sci
 
 ## Other Courses
 
+`2018` 
+__MBA, ThePowerMBA, remote__
+
 `2016` 
 __Certified Scrum Master, Scrum Alliance, Amsterdam__
 
@@ -146,7 +149,7 @@ __Oracle's Best Trainee of the year__
         <div class="level-spacer">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
         <div class="level-title">Backend dev.</div>
         <div class="level-bar">
-            <div class="level-bar-inner" style="width: 50%;"></div>
+            <div class="level-bar-inner" style="width: 65%;"></div>
         </div>
     </div>
 

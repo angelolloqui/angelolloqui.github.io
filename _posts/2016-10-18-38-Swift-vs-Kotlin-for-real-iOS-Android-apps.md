@@ -26,11 +26,11 @@ As commented, both languages are very similar. In fact, they are so similar that
 
 *   **Swift does not have delegated classes or delegated properties**: A very interesting feature of Kotlin are delegated classes and properties. With them, you can forward invocation of methods to another class automatically, or define behaviors for properties such as lazy, obsrvable, etc. You can even create your own property delegates. In Swift, things like lazy are modifiers implemented in the language, so that means that you can not create your own but you are limited to the ones provided.
 
-*   **Swift does not allow annotations**: Coming from the Java world, Kotlin has full support for annotations. However, in Swift that is not considered at all, so annotations like @Inject or @Test that are so common in Java libraries do not have any counterpart in Swift.
+*   **Swift does not allow annotations**: Coming from the Java world, Kotlin has full support for annotations. However, in Swift that is not considered at all, so annotations like `@Inject` or `@Test` that are so common in Java libraries do not have any counterpart in Swift.
 
 *   **Kotlin classes are final by default**: Kotlin classes are by default closed for extension, so you have to add open in any class you expect to be extended with inheritance.
 
-*   **Kotlin has no struct or passing data by value**: In Swift you can decide whether to use a class or a struct for your data. The decision is not trivial, and results in different implementation details. Structs are always passed by value, meaning that every time you call a method with it, return a struct, assign a struct,... the values are actually copied to the new variable, and any modification will only affect the modified variable and not the others. Besides that, structs do not allow inheritance, so they tend to be a perfect candidate for data classes. In Kotlin, there is no struct type and the language follows the same pattern than Java, where basic types (int, float, boolean,...) are passed by value, but the rest are passed by reference.
+*   **Kotlin has no struct or passing data by value**: In Swift you can decide whether to use a class or a struct for your data. The decision is not trivial, and results in different implementation details. Structs are always passed by value, meaning that every time you call a method with it, return a struct, assign a struct,... the values are actually copied to the new variable, and any modification will only affect the modified variable and not the others. Besides that, structs do not allow inheritance, so they tend to be a perfect candidate for data classes. In Kotlin, there is no struct type and the language follows the same pattern than Java, where basic types (`int`, `float`, `boolean`,...) are passed by value, but the rest are passed by reference.
 
 *   **Kotlin has no tuples**: Tuples are not implemented in Kotlin, so you will find yourself creating small data classes as counterpart for Swift tuples.
 
@@ -56,7 +56,7 @@ The answer is yes, we can still reuse the code, and yes, we can increase code re
 
 There are multiple architectural patterns out there (MVC, MVP, MVVM, VIPER, FLUX,...), each of them with their own benefits/drawbacks and best usage scenarios. I am not going to explore or compare them here because that is out of the scope of this post, but let me quickly review the one that I chose for this sample project: MVVM + Rx + Coordinators.
 
-In MVVM, the code is split in **Model**, **View** and **ViewModel**. Views include UIViewController/Activities/Fragments, while ViewModel is a new entity introduced to map the model into data that can be consumed by the View layer easily. The main benefit of this pattern is that the **Model and the ViewModel are completely agnostic from UI**, and it is the UI the one that will “listen” for changes in the ViewModel and not the other way around. Code in View layers get shorter, as they do not need to apply any logic but **just display what the ViewModel provides**. This is a good feature for our case because we mentioned that UI code will be pretty different for both apps, so then we can keep those differences isolated and as short as possible.
+In MVVM, the code is split in **Model**, **View** and **ViewModel**. Views include `UIViewController`/`Activity`/`Fragment`, while `ViewModel` is a new entity introduced to map the model into data that can be consumed by the View layer easily. The main benefit of this pattern is that the **Model and the ViewModel are completely agnostic from UI**, and it is the UI the one that will “listen” for changes in the ViewModel and not the other way around. Code in View layers get shorter, as they do not need to apply any logic but **just display what the ViewModel provides**. This is a good feature for our case because we mentioned that UI code will be pretty different for both apps, so then we can keep those differences isolated and as short as possible.
 
 The addition of **[Rx](http://reactivex.io/)** gives us a very powerful framework to “listen” for the ViewModel changes, and at the same time keep consistency between platforms since there are [RxSwift](https://github.com/ReactiveX/RxSwift) and [RxJava](https://github.com/ReactiveX/RxJava) counterparts following the same conventions. They also have platform dependent additions ([RxCocoa](https://github.com/ReactiveX/RxSwift/tree/master/RxCocoa) and [RxAndroid](https://github.com/ReactiveX/RxAndroid)), but we will keep those **limited to the View layer**.
 
@@ -103,6 +103,7 @@ RestaurantSearch is a data class containing a search response. You can see in t
 
 ##### RestaurantService
 
+```
     //RestaurantService.swift
     public class RestaurantService {
         let networkSession: URLSession
@@ -150,7 +151,8 @@ RestaurantSearch is a data class containing a search response. You can see in t
                 endpoint: "restaurants/\(restaurantId)")
         }
     }
-
+```
+```
     //RestaurantService.kt
     public class RestaurantService(
             val networkSession: HttpVolleySession = HttpVolleySession.getInstance(null, null),
@@ -191,13 +193,13 @@ RestaurantSearch is a data class containing a search response. You can see in t
                     endpoint = "restaurants/${restaurantId}")
         }
     }
-
+```
 String similarity: **87.62%**
 
-RestaurantService is a class that provides access to the OpenTable API. It provides a couple of methods to make search queries, and return a ServiceTask object that encapsulates the networking request and mapping. The resulting code as you can see is **almost identical**, except for the usage of a UrlSession vs a VolleySession and **minor syntactic differences**. Of course, once again the implementation details of the NetworkRequestServiceTask will be different in both platforms to deal with the networking libraries, but API wise they are the same and the NetworkRequestServiceTask and its dependencies can be reused across projects.
+RestaurantService is a class that provides access to the OpenTable API. It provides a couple of methods to make search queries, and return a ServiceTask object that encapsulates the networking request and mapping. The resulting code as you can see is **almost identical**, except for the usage of a UrlSession vs a VolleySession and **minor syntactic differences**. Of course, once again the implementation details of the `NetworkRequestServiceTask` will be different in both platforms to deal with the networking libraries, but API wise they are the same and the `NetworkRequestServiceTask` and its dependencies can be reused across projects.
 
 ##### RestaurantListState
-
+```
     //RestaurantListState.swift
     struct RestaurantsListState {
         let restaurants: [Restaurant]
@@ -237,8 +239,8 @@ RestaurantService is a class that provides access to the OpenTable API. It prov
         var isFailed: Bool { return error != nil }
         
     }
-    
-
+```    
+```
     //RestaurantListState.kt
     data class RestaurantsListState private constructor(
            val restaurants: Array<Restaurant> = arrayOf(),
@@ -269,13 +271,13 @@ RestaurantService is a class that provides access to the OpenTable API. It prov
        val isFailed: Boolean get() = error != null
     
     }
-
+```
 String similarity: **77.33%**
 
 Here he have RestaurantListState, which is just a plain class holding state information used by the ViewModel. In this particular case, there are no dependencies to any other library or system framework, and therefore the **code is again very similar** except for the minor differences commented above (ex: static methods vs companion methods or struct vs data class)
 
 ##### RestaurantListViewModel
-
+```
     //RestaurantListViewModel.swift
     class RestaurantsListViewModel {
         private let restaurantService: RestaurantService
@@ -314,7 +316,8 @@ Here he have RestaurantListState, which is just a plain class holding state info
                 }.execute()
         }
     }
-
+```
+```
     //RestaurantListViewModel.kt
     class RestaurantsListViewModel(
            private val restaurantService: RestaurantService) {
@@ -347,13 +350,13 @@ Here he have RestaurantListState, which is just a plain class holding state info
                 }.execute()
        }
     }
-
+```
 String similarity: **77.25%**
 
 This class corresponds to the ViewModel that will be used by the list of restaurants screen. As you can see, once again **code fully resembles to each other**, with the small difference of memory management and guard statement in the Swift case. Very interesting to note as well is that this is the first code snippet using Rx. You can see how they both share the same methods and objects, so the resulting code is equivalent in both platforms. Thanks Rx for keeping consistency!
 
 ##### RestaurantsCoordinator
-
+```
     //RestaurantsCoordinator.swift
     class RestaurantsCoordinator: BaseCoordinator {
         static var identifier = CoordinatorIdentifier<Restaurants.Coordinator>(identifier: "RestaurantsCoordinator")
@@ -376,7 +379,8 @@ This class corresponds to the ViewModel that will be used by the list of restaur
             presentViewController(viewController: vc)
         }
     }
-
+```
+```
     //RestaurantsCoordinator.kt
     class RestaurantsCoordinator(context: Context, parentCoordinator: Coordinator?, val restaurantService: RestaurantService = RestaurantService()): BaseCoordinator(context, parentCoordinator) {
        companion object {
@@ -395,13 +399,13 @@ This class corresponds to the ViewModel that will be used by the list of restaur
            presentActivity(intent)
        }
     }
-
+```
 String similarity: **70.40%**
 
 RestaurantsCoordinator is the class responsible of navigation and coordination between the different parts in the MVVM. It basically instantiates new views, view models and services when needed, and present them in screen. Check it out because even if the navigation in both platforms is handled differently, **the resulting code is so similar that you can barely notice the differences** except for the constructors and statics.
 
 ##### RestaurantsListView
-
+```
     //RestaurantsListViewController.swift
     class RestaurantsListViewController: UIViewController {
         fileprivate var viewModel: Restaurants.List.ViewModel!
@@ -527,7 +531,8 @@ RestaurantsCoordinator is the class responsible of navigation and coordination 
         }
     
     }
-
+```
+```
     //RestaurantsListActivity.kt
     class RestaurantsListActivity : AppCompatActivity() {
        enum class Sections { restaurant, loading, error }
@@ -647,18 +652,18 @@ RestaurantsCoordinator is the class responsible of navigation and coordination 
        val layoutManager = LinearLayoutManager(this)
     
     }
-
+```
 String similarity: **52.27%**
 
 OK, so here is the big deal. So far, code was very similar and can be easily shared (with small editions) from one to the other platform. However, as we warned above, the UI code will be very different. How much? You can compare it by yourself…
 
-Basically, they **both share a common approach** in which they have a constructor receiving the dependencies (for a very simple Dependency Injection); a view creation method (viewDidLoad / onCreate) that basically subscribes to the ViewModel observables and configures the list; a view appear method (viewWillAppear / onResume) that will load new results; and a set of methods and types to deal with the information from the list, which by the way could have been moved partially to the ViewModel probably.
+Basically, they **both share a common approach** in which they have a constructor receiving the dependencies (for a very simple Dependency Injection); a view creation method (`viewDidLoad` / `onCreate`) that basically subscribes to the ViewModel observables and configures the list; a view appear method (`viewWillAppear` / `onResume`) that will load new results; and a set of methods and types to deal with the information from the list, which by the way could have been moved partially to the ViewModel probably.
 
 As you can see, **they are similar (especially conceptually) but not equal**, so all in all I would say that you could use one as a template for the other, but you will still need to write about half of the code, but judge it yourself. 
 
 Of course, if you create your own wrappers around the UI components, you could actually achieve a much higher code reuse rate by exposing similar APIs, but you will need to develop them and they will introduce extra learning steps for new developers (like I did for networking in the NetworkServiceTask, use a similar API with different implementations)
 
-Off-topic: note how the usage of Kotlin extensions removed all of the findViewById so typical (and error prone) in Android UI classes, and in iOS the usage of [R.swift](https://github.com/mac-cain13/R.swift) is also cleaning up many of the hardcoded strings.
+Off-topic: note how the usage of Kotlin extensions removed all of the `findViewById` so typical (and error prone) in Android UI classes, and in iOS the usage of [R.swift](https://github.com/mac-cain13/R.swift) is also cleaning up many of the hardcoded strings.
 
 ##### Layout
 
