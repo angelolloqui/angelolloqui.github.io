@@ -12,8 +12,6 @@ categories:
 permalink: /blog/:title
 ---
 
-#### Introduction
-
 When including third party libraries into your project, you can run into a “**Duplicated Symbols**” error on the linking process. This annoying error is due to a name collision between one or more of your classes, usually caused by either:
 
 *   **You do not use a prefix as namespace** and you use a generic name such as Session, User or similar. This has an easy solution, as all you need to do is rename your classes to use a prefix. For example, User could be renamed into AGUser. Using prefixes is a good practice that you should always follow in programming languages without namespaces like C or Objective-C.

@@ -7,15 +7,11 @@ categories:
     - ios
     - like button
 permalink: /blog/:title
+notice: "Some people are still asking me for this. Please, note that this post is too old and that it was a hack at that time, so it is very likely to fail nowadays. Nevertheless, the idea behind this hack should still work: Embeb a webview with the official FB like button and capture the login redirect to display a proper dialog to the user."
 ---
-
-> ### Important Note
-
-> Some people are still asking me for this. Please, note that this post is too old and that it was a hack at that time, so it is very likely to fail nowadays. Nevertheless, the idea behind this hack should still work: Embeb a webview with the official FB like button and capture the login redirect to display a proper dialog to the user. 
-
-### The problem  
   
 Some days ago a client asked us for including a Like Facebook button in one of his iPad applications. We have previously used Facebook iOS SDK ([https://github.com/facebook/facebook-ios-sdk](https://github.com/facebook/facebook-ios-sdk)) for including things like the user's profile photo, friends, and so on so we were pretty sure that this button would be easy to implement.  
+
 Upppssss, what an error! Facebook iOS API doesn't include a FB Like button, and the Rest API either. The only way that Facebook seems to give to developers is a HTML button or iframe, both of them thinked for being in a web enviroment. Of course we have the chance to include a webview in the iPad app to include this button, but we should take care of the login process and some other issues, so I did some research and I found this:  
   
 [http://petersteinberger.com/2010/06/add-facebook-like-button-with-facebook-connect-iphone-sdk/](http://petersteinberger.com/2010/06/add-facebook-like-button-with-facebook-connect-iphone-sdk/)  

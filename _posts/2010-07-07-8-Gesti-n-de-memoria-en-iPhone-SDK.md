@@ -9,8 +9,9 @@ categories:
 permalink: /blog/:title
 ---
 
-El desarrollo de aplicaciones para iPhone o iPad, a diferencia de Android y otras plataformas, tiene un tema bastante espinoso y que a la gente le suele parecer complicado al principio: la gestión de memoria. Debido a que la aplicación es compilada a código nativo, sin máquinas virtuales de por medio, no contamos con un recolector de basura que nos haga la limpieza de memoria de las variables en desuso. En esta entrada trataré de exponer las convenciones y consideraciones que debes tener en cuenta al enfrentarte a este tipo de desarrollos.  
-  
+El desarrollo de aplicaciones para iPhone o iPad, a diferencia de Android y otras plataformas, tiene un tema bastante espinoso y que a la gente le suele parecer complicado al principio: la gestión de memoria. Debido a que la aplicación es compilada a código nativo, sin máquinas virtuales de por medio, no contamos con un recolector de basura que nos haga la limpieza de memoria de las variables en desuso. En esta entrada trataré de exponer las convenciones y consideraciones que debes tener en cuenta al enfrentarte a este tipo de desarrollos. 
+<!--more-->
+
 Como decía anteriormente, lo más importante es saber que aunque en Objective-C puede existir un recolector de basura cuando programamos para MacOs, no existe en iPhone o iPad, por lo que toda la gestión es manual. ¿Qué significa manual? pues que toda memoria que quieras utilizar tienes que crearla (normalmente mediante alloc), retenerla si es necesario (lo veremos después), y liberarla cuando dejes de necesitarla (con release). Esta forma de trabajar es chocante si vienes de lenguajes donde no sea necesario, tales como los interpretados (Java, .Net,...) o los de scripting (ruby, php,...).  
   
 Si no hacemos la gestión de memoria de forma correcta pueden ocurrir dos cosas:  

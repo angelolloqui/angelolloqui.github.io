@@ -11,11 +11,8 @@ categories:
     - calabash
     - libraries    
 permalink: /blog/:title
+notice: "I am receiving feedback from readers that this solution is not always working. Please, have in mind that this post is old and the content might be outdated."
 ---
-
-> NOTE: I am receiving feedback from readers that this solution is not always working. Please, have in mind that this post is old and the content might be outdated.
-
-#### Introduction
 
 This week I have been delighted with a very attractive (and quite new) acceptance testing framework called “[Calabash](http://calaba.sh/)”. My experience in acceptance testing is limited, but Calabash quickly took my attention for a few reasons:
 

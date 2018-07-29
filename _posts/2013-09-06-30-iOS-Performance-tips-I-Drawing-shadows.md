@@ -10,8 +10,6 @@ categories:
 permalink: /blog/:title
 ---
 
-#### Introduction
-
 It is very common to see shadows in different apps. In many occasions shadows are just rendered by using an image with the shadow predrawn, which basically performs as any other UIImageView. However, sometimes you may need to draw the shadow from code. When this time comes you will face performance problems that in case of heavy use (especially in iPad in combination with table or collection views) it can slow down you UI. 
 
 It might seem negligible, but if your view is a composition of multiple views applying shadows then you will actually experience a very big UI performance degradation. For example, in my latest project where I had a grid view with shaded cells like this:

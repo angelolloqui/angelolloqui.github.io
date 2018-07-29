@@ -48,6 +48,12 @@ p .reversefootnote:hover, p .reversefootnote:active, p .reversefootnote:focus {
   </span>
 </div>
 
+{% if page.notice %}
+<div style="background-color: beige; padding: 20px">
+  {{ page.notice | markdownify }}
+</div>
+{% endif %}
+
 <article class="post-content">
   {{ content }}
 </article>
