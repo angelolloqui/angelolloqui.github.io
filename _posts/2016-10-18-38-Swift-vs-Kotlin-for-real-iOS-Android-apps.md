@@ -661,7 +661,7 @@ Basically, they **both share a common approach** in which they have a constructo
 
 As you can see, **they are similar (especially conceptually) but not equal**, so all in all I would say that you could use one as a template for the other, but you will still need to write about half of the code, but judge it yourself. 
 
-Of course, if you create your own wrappers around the UI components, you could actually achieve a much higher code reuse rate by exposing similar APIs, but you will need to develop them and they will introduce extra learning steps for new developers (like I did for networking in the NetworkServiceTask, use a similar API with different implementations)
+Of course, if you create your own wrappers around the UI components, you could actually achieve a much higher code reuse rate by exposing similar APIs, but you will need to develop them and they will introduce extra learning steps for new developers (like I did for networking in the `NetworkServiceTask`, use a similar API with different implementations)
 
 Off-topic: note how the usage of Kotlin extensions removed all of the `findViewById` so typical (and error prone) in Android UI classes, and in iOS the usage of [R.swift](https://github.com/mac-cain13/R.swift) is also cleaning up many of the hardcoded strings.
 
