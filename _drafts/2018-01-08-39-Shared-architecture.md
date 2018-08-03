@@ -71,6 +71,8 @@ We made sure that both frameworks offered the same public API (different impleme
 *   `LocationManager`
 *   ...
 
+> (You can check all code in these repos: [Swift]() [Kotlin]())
+
 We also picked the combination of Swift/Kotlin because of their enormous similarities and we used [SwiftKotlin](https://github.com/angelolloqui/SwiftKotlin) to minimize the time needed to transpile code from iOS to Android.
 
 Finally, we added a few extensions over foundation objects to provide some of the missing methods on one or the other language (ex: `compactMap`, `flatMap`, `let`,...)
@@ -86,32 +88,252 @@ Our SDK basically offers Models and Services. It makes heavy use of networking a
 A common interface to deal with networking. On iOS, it is implemented with `NSURLSession` while Android uses `OKHttp` library
 
 ```
-—-code—-
+public protocol IHttpClient {
+    func request(_ httpRequest: HttpRequest) -> Promise<HttpResponse>
+}
+
+extension IHttpClient {
+
+    public func get(endpoint: String, params: [String: Any]?) -> Promise<Data> {
+        return request(HttpRequest(method: HttpMethod.get, url: endpoint, queryParams: params, bodyParams: nil, headers: nil))
+            .then { $0.body }
+    }
+
+    public func post(endpoint: String, params: [String: Any]?) -> Promise<Data> {
+        return request(HttpRequest(method: HttpMethod.post, url: endpoint, queryParams: nil, bodyParams: params, headers: nil))
+            .then { $0.body }
+    }
+
+    public func put(endpoint: String, params: [String: Any]?) -> Promise<Data> {
+        return request(HttpRequest(method: HttpMethod.put, url: endpoint, queryParams: nil, bodyParams: params, headers: nil))
+            .then { $0.body }
+    }
+
+    public func patch(endpoint: String, params: [String: Any]?) -> Promise<Data> {
+        return request(HttpRequest(method: HttpMethod.patch, url: endpoint, queryParams: nil, bodyParams: params, headers: nil))
+            .then { $0.body }
+    }
+
+    public func delete(endpoint: String, params: [String: Any]?) -> Promise<Data> {
+        return request(HttpRequest(method: HttpMethod.delete, url: endpoint, queryParams: params, bodyParams: nil, headers: nil))
+            .then { $0.body }
+    }
+
+}
 ```
+````
+interface IHttpClient {
+    fun request(httpRequest: HttpRequest): Promise<HttpResponse>
 
-#### Tenant
+    fun get(endpoint: String, params: Map<String, Any>?): Promise<ByteArray> =
+            request(HttpRequest(method = HttpMethod.get, url = endpoint, queryParams = params, bodyParams = null, headers = null))
+                    .then(map = { it.body })
 
-Model object that contains information of a club. Note how thanks to the common JSON interface code looks almost identical and behaves equally for example when we get a Number where a String was expected.
+    fun post(endpoint: String, params: Map<String, Any>?): Promise<ByteArray> =
+            request(HttpRequest(method = HttpMethod.post, url = endpoint, queryParams = null, bodyParams = params, headers = null))
+                    .then(map = { it.body })
+
+    fun put(endpoint: String, params: Map<String, Any>?): Promise<ByteArray> =
+            request(HttpRequest(method = HttpMethod.put, url = endpoint, queryParams = null, bodyParams = params, headers = null))
+                    .then(map = { it.body })
+
+    fun patch(endpoint: String, params: Map<String, Any>?): Promise<ByteArray> =
+            request(HttpRequest(method = HttpMethod.patch, url = endpoint, queryParams = null, bodyParams = params, headers = null))
+                    .then(map = { it.body })
+
+    fun delete(endpoint: String, params: Map<String, Any>?): Promise<ByteArray> =
+            request(HttpRequest(method = HttpMethod.delete, url = endpoint, queryParams = params, bodyParams = null, headers = null))
+                    .then(map = { it.body })
+
+}
+
+````
+###### String similarity: 82.28%
+
+#### User
+
+Model object that contains information of a user. Note how thanks to the common JSON interface code looks almost identical and behaves equally for example when we get a Number where a String was expected.
 
 ```
-—-code—-
-```
+public struct User: JSONMappable {
+    public let id: UserId
+    public let email: String
+    public let fullName: String
+    public let picture: String?
+    public let isValidated: Bool
+    public let linkedTenants: [Tenant]?
+    public let phone: String?
+    public let acceptsPrivacy: Bool?
+    public let acceptsCommercial: Bool?
 
-#### XxxService
+    public init(json: JSONObject) throws {
+        self.id = try UserId(json.getAny("user_id"))
+        self.email = json.optString("email") ?? ""
+        self.fullName = try json.getString("full_name")
+        self.picture = json.optString("picture")
+        self.isValidated = try json.getBoolean("is_validated")
+        self.linkedTenants = json.optJSONArray("linked_tenants")?.flatMap { (json: JSONObject) in
+            try? Tenant(json: json)
+        }
+        self.phone = json.optString("phone")
+        self.acceptsPrivacy = json.optBoolean("accepts_privacy")
+        self.acceptsCommercial = json.optBoolean("accepts_commercial")
+    }
 
-See how there is a minor difference due to the language difference when using generics, but for the rest are almost identical.
+    public func linkedTenant(_ id: TenantId) -> Tenant? {
+        return linkedTenants?.first { $0.id == id }
+    }
+
+}
+```
+```
+public class User: JSONMappable {
+    public val id: UserId
+    public val email: String
+    public val fullName: String
+    public val picture: String?
+    public val isValidated: Boolean
+    public val linkedTenants: List<Tenant>?
+    public val phone: String?
+    public val acceptsPrivacy: Boolean?
+    public val acceptsCommercial: Boolean?
+
+    @Throws(JSONException::class)
+    public constructor(json: JSONObject) : super(json) {
+        id = UserId(json.getAny("user_id"))
+        email = json.optString("email") ?: ""
+        fullName = json.getString("full_name")
+        picture = json.optString("picture")
+        isValidated = json.getBoolean("is_validated")
+        linkedTenants = json.optJSONArray("linked_tenants")?.flatMap { json ->
+            try { Tenant(json = json) } catch (t: Throwable) { null }
+        }
+        phone = json.optString("phone")
+        acceptsPrivacy = json.optBoolean("accepts_privacy")
+        acceptsCommercial = json.optBoolean("accepts_commercial")
+    }
+
+    public fun linkedTenant(id: TenantId): Tenant? =
+            linkedTenants?.firstOrNull { it.id == id }
+
+}
+```
+###### String similarity: 87.77%
+
+
+#### TenantService
+
+An example of service to query the Tenants microservice (for club's information). See how there is a minor difference due to the language difference when using generics, but for the rest are almost identical.
 
 ```
-—— code ——
+class TenantService: ITenantService {
+    let httpClient: IHttpClient
+
+    init(httpClient: IHttpClient) {
+        self.httpClient = httpClient
+    }
+
+    func search(name: String, pagination: PaginationOptions?) -> Promise<[Tenant]> {
+        let endpoint = "/v1/tenants"
+        var params: [String: Any] = [
+            "tenant_name": name,
+            "playtomic_status": "ACTIVE"
+        ]
+        if let pagination = pagination {
+            params += pagination.params
+        }
+        return httpClient.get(endpoint: endpoint, params: params)
+            .then { JSONTransformer().map($0) }
+    }
+
+    func search(coordinate: Coordinate, radius: Int, sportId: SportId?, pagination: PaginationOptions?) -> Promise<[Tenant]> {
+        let endpoint = "/v1/tenants"
+        var params: [String: Any] = [
+            "coordinate": coordinate,
+            "radius": radius,
+            "playtomic_status": "ACTIVE"
+        ]
+        if let sportId = sportId {
+            params["sport_id"] = sportId
+        }
+        if let pagination = pagination {
+            params += pagination.params
+        }
+        return httpClient.get(endpoint: endpoint, params: params)
+            .then { JSONTransformer().map($0) }
+    }
+
+    func fetchDetail(id: TenantId) -> Promise<Tenant> {
+        let endpoint = "/v1/tenants/\(id)"
+        return httpClient.get(endpoint: endpoint, params: nil)
+            .then { JSONTransformer().map($0) }
+    }
+
+}
 ```
+```
+class TenantService(private val httpClient: IHttpClient): ITenantService {
+
+    override fun search(name: String, pagination: PaginationOptions?): Promise<List<Tenant>> {
+        val endpoint = "/v1/tenants"
+        val params = mutableMapOf<String, Any>(
+                "tenant_name" to name,
+                "playtomic_status" to "ACTIVE"
+        )
+        if (pagination != null) {
+            params += pagination.params
+        }
+        return httpClient.get(endpoint = endpoint, params = params)
+                .then(JSONTransformer(Tenant::class.java)::mapArray)
+    }
+
+    override fun search(coordinate: Coordinate, radius: Int, sportId: SportId?, pagination: PaginationOptions?): Promise<List<Tenant>> {
+        val endpoint = "/v1/tenants"
+        val params = mutableMapOf<String, Any>(
+                "coordinate" to coordinate,
+                "radius" to radius,
+                "playtomic_status" to "ACTIVE"
+        )
+        if (sportId != null) {
+            params["sport_id"] = sportId
+        }
+        if (pagination != null) {
+            params += pagination.params
+        }
+        return httpClient.get(endpoint = endpoint, params = params)
+                .then(JSONTransformer(Tenant::class.java)::mapArray)
+    }
+
+
+    override fun fetchDetail(id: TenantId): Promise<Tenant> {
+        val endpoint = "/v1/tenants/${id}"
+        return httpClient.get(endpoint = endpoint, params = null)
+                .then(JSONTransformer(Tenant::class.java)::mapObject)
+    }
+
+}
+```
+###### String similarity: 83.93%
 
 ### PlaytomicUI
 
-This module contains UI components and utilities such as custom textfields, tag views, sliders, generic table cells, generic datasources/adapters, input validators, animations, view stylers,... they are packed into a framework/library and used by the application. An example:
+This module contains UI components and utilities such as custom textfields, tag views, sliders, generic table cells, generic datasources/adapters, input validators, animations, view stylers,... they are packed into a framework/library and used by the application. A very simple example:
 
 ```
-—-Email validator—-
+open class TextFieldEmailValidatorBehavior: TextFieldValidatorBehavior {
+    open override func configure() {
+        super.configure()
+        regularExpression = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
+    }
+}
 ```
+```
+class TextFieldEmailValidatorBehavior(textView: TextView) : TextFieldRegexValidatorBehavior(
+        textView = textView,
+        regularExpression = "^[(A-Za-z0-9\\._\\+\\-)]+@[(A-Za-z0-9\\.\\-)]+\\.[(A-Za-z)]{2,4}$"
+)
+```
+###### String similarity: 70.75%
 
 ### Application
 
@@ -119,41 +341,307 @@ Our application code is divided into modules and managers.
 
 Each module can have its own internal architecture and communicates with the others through the use of Coordinators. For most of our modules we use an MVP pattern, as the presenter manipulation required is pretty small (remember our Anemone SDK deals with our network and persistence, so that would be the Entity and Repository in a VIPER architecture, and our Coordinators correspond to the Routers). In some cases, where there is business logic or complex data manipulation involved in clients, we also use Interactors. Nevertheless, modules could be implemented in MVVM or other patterns as long as they publish a Coordinator for the rest to consume.
 
-The benefit of splitting code this way is that our Presenters and Interactors have no platform dependencies so they can be transpiled with almost no work. Coordinators are also very similar and quick to transpile, leaving the Managers and the Views as the only parts that require specific work per platform.
+The benefit of splitting code this way is that our Presenters and Interactors have no platform dependencies so they can be transpiled with almost no work (especially using [SwiftKotlin](https://github.com/angelolloqui/SwiftKotlin)). Coordinators are also very similar and quick to transpile, leaving the Managers and the Views as the only parts that require specific work per platform.
 
 \_\_\_\_gif transpiling\_\_\_\_
 
 Let’s see a few examples of each of this:
 
-#### XxxPresenter
+#### LoginPresenter
 
 ```
-—\- code —-
-```
+class LoginPresenter: Presenter<ILoginView> {
+    let coordinator: IAuthCoordinator
+    let appEventManager: IAppEventManager
+    let messageBarManager: IMessageBarManager
+    let navigationManager: INavigationManager
+    let authenticationService: IAuthenticationService    
 
-#### XxxCoordinator
+    init(coordinator: IAuthCoordinator,
+         appEventManager: IAppEventManager,
+         messageBarManager: IMessageBarManager,
+         navigationManager: INavigationManager,
+         authenticationService: IAuthenticationService) {
+        self.coordinator = coordinator
+        self.appEventManager = appEventManager
+        self.messageBarManager = messageBarManager
+        self.navigationManager = navigationManager
+        self.authenticationService = authenticationService
+    }
+
+    override func viewPresented() {
+        super.viewPresented()
+        view?.setIsLoading(false)
+        if authenticationService.isLoggedIn() {
+            skipLogin()
+        }
+    }
+
+    func skipLogin() {
+        self.view.let { self.navigationManager.dismiss(view: $0, animated: true) }
+    }
+
+    func login(email: String, password: String) {
+        view?.setIsLoading(true)
+        authenticationService.login(user: email, password: password).then { [weak self] _ in
+            guard let `self` = self else { return }
+            self.view.let { self.navigationManager.dismiss(view: $0, animated: true) }
+            self.appEventManager.sendEvent(AppEvent.loginWithCredentials(success: true))
+        }.always { [weak self] in
+            self?.view?.setIsLoading(false)
+        }.catchError { [weak self] (error) in
+            self?.messageBarManager.showError(error: error)
+            self?.appEventManager.sendEvent(AppEvent.loginWithCredentials(success: false))
+        }
+    }
+
+    func rememberPassword() {
+        navigationManager.show(coordinator.requestPasswordIntent(), animation: NavigationAnimation.push)
+    }
+
+}
+```
+````
+class LoginPresenter(
+        private val coordinator: IAuthCoordinator,
+        private val appEventManager: IAppEventManager,
+        private val messageBarManager: IMessageBarManager,
+        private val navigationManager: INavigationManager,
+        private val authenticationService: IAuthenticationService)
+    : Presenter<ILoginView>() {
+
+    override fun viewPresented() {
+        super.viewPresented()
+        view?.setIsLoading(false)
+        if (authenticationService.isLoggedIn()) {
+            skipLogin()
+        }
+    }
+
+    fun skipLogin() {
+        this.view?.let { this.navigationManager.dismiss(view = it, animated = true) }
+    }
+
+    fun login(email: String, password: String) {
+        view?.setIsLoading(true)
+        authenticationService.login(email, password)
+                .then {
+                    this.view?.let { this.navigationManager.dismiss(view = it, animated = true) }
+                    appEventManager.sendEvent(AppEvent.loginWithCredentials(success = true))
+                }
+                .always { 
+                    view?.setIsLoading(false) 
+                }
+                .catchError { error ->
+                    messageBarManager.showError(error = error)
+                    appEventManager.sendEvent(AppEvent.loginWithCredentials(success = false))
+                }
+    }
+
+    fun rememberPassword() {
+        navigationManager.show(coordinator.requestPasswordIntent(), animation = NavigationAnimation.push)
+    }
+
+}
+````
+###### String similarity: 73.59%
+
+#### AuthCoordinator
 
 ```
-—\- code —-
-```
+class AuthCoordinator: IAuthCoordinator {
 
-#### XxxView
+    let managerProvider: IManagerProvider
+    let authenticationService: IAuthenticationService
+
+    init(managerProvider: IManagerProvider, authenticationService: IAuthenticationService) {
+        self.managerProvider = managerProvider
+        self.authenticationService = authenticationService
+    }
+
+    func loginIntent() -> INavigationIntent {
+        let presenter = LoginPresenter(
+            coordinator: self,
+            appEventManager: managerProvider.appEventManager,
+            messageBarManager: managerProvider.messageBarManager,
+            navigationManager: managerProvider.navigationManager,
+            authenticationService: authenticationService)
+        let loginController = R.storyboard.authStoryboard.loginViewController()
+
+        return PresenterNavigationIntent(presenter: presenter, viewController: loginController)
+    }
+
+    //.... others ....
+}
+```
+```
+class AuthCoordinator(
+        private val managerProvider: IManagerProvider,
+        private val authenticationService: IAuthenticationService)
+    : IAuthCoordinator {
+
+    override fun loginIntent(): INavigationIntent {
+        val presenter = LoginPresenter(
+                coordinator = this,
+                appEventManager = managerProvider.appEventManager,
+                messageBarManager = managerProvider.messageBarManager,
+                navigationManager = managerProvider.navigationManager,
+                authenticationService = authenticationService)
+        val loginFragment = LoginFragment()
+
+        return PresenterNavigationIntent(presenter, loginFragment)
+    }
+
+    //.... others ....
+}
+```
+###### String similarity: 76.11%
+
+#### LoginView
 
 ```
-—\- code —-
-```
+class LoginViewController: PresenterViewController<LoginPresenter> {
+    @IBOutlet weak var usernameTextField: PlaytomicTextField!
+    @IBOutlet weak var passwordTextField: PlaytomicTextField!
+    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var dismissButton: UIButton!
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
 
-As you can see, by using PlaytomicUI components and some of our extensions, code in both platforms is also very similar even on the View layer. The main work on this part corresponds to laying out elements in Interface Builder (iOS) or in layout XMLs (Android).
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        usernameTextField.configure(
+            inputType: .email,
+            labelText: R.string.localizable.auth_login_user_field(),
+            errorMessage: R.string.localizable.auth_login_user_error(),
+            validators: [
+                TextFieldEmailValidatorBehavior(textField: usernameTextField.textField)
+            ],
+            editTextDidChangeCallback: { [weak self] in self?.reloadLoginButtonState() }
+        )
+
+        passwordTextField.configure(
+            inputType: .password,
+            labelText: R.string.localizable.auth_login_password_field(),
+            errorMessage: R.string.localizable.auth_login_password_error(),
+            validators: [
+                TextFieldLengthValidatorBehavior(textField: passwordTextField.textField, minLength: 5, maxLength: nil)
+            ],
+            editTextDidChangeCallback: { [weak self] in self?.reloadLoginButtonState() }
+        )
+        reloadLoginButtonState()
+    }
+
+    @IBAction func login() {
+        view.endEditing(true)
+        presenter.login(email: usernameTextField.text, password: passwordTextField.text)
+    }
+
+    @IBAction func skipLogin() {
+        presenter.skipLogin()
+    }
+
+    @IBAction func rememberPassword() {
+        presenter.rememberPassword()
+    }
+
+    func reloadLoginButtonState() {
+        let fieldsValid = usernameTextField.isValid && passwordTextField.isValid
+        let loading = loadingIndicator.isAnimating
+        loginButton.isEnabled = fieldsValid && !loading
+    }
+
+    // ****  View Interface  ****
+
+    func setIsLoading(loading: Bool) {
+        if newValue {
+            loadingIndicator.startAnimating()
+        } else {
+            loadingIndicator.stopAnimating()
+        }
+        reloadLoginButtonState()
+    }
+
+}
+```
+```
+class LoginFragment : PresenterFragment<LoginPresenter>(R.layout.login_fragment), ILoginView {
+
+    @BindView(R.id.username_edit_text_custom)
+    lateinit var usernameCustomEditText: PlaytomicTextField
+
+    @BindView(R.id.password_edit_text_custom)
+    lateinit var passwordCustomEditText: PlaytomicTextField
+
+    @BindView(R.id.login_button)
+    lateinit var loginButton: Button
+
+    @BindView(R.id.toolbar_back_button)
+    lateinit var dismissButton: ImageButton
+
+    @BindView(R.id.loading_indicator)
+    lateinit var loadingIndicator: ProgressBar
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        usernameCustomEditText.configure(
+                inputType = PlaytomicTextField.InputType.email,
+                labelText = R.string.auth_login_user_field,
+                errorMessage = R.string.auth_login_user_error,
+                validators = listOf(
+                        TextFieldEmailValidatorBehavior(usernameCustomEditText.editText)
+                ),
+                editTextDidChangeCallback = ::reloadLoginButtonState
+        )
+        usernameCustomEditText.nextTextField = passwordCustomEditText
+
+        passwordCustomEditText.configure(
+                inputType = PlaytomicTextField.InputType.password,
+                labelText = R.string.auth_login_password_field,
+                errorMessage = R.string.auth_login_password_error,
+                validators = listOf(
+                        TextFieldLengthValidatorBehavior(passwordCustomEditText.editText, 5, null)
+                ),
+                editTextDidChangeCallback = ::reloadLoginButtonState
+        )
+        reloadLoginButtonState()
+    }
+
+    @OnClick(R.id.login_button)
+    internal fun login() {
+        hideKeyboard()
+        presenter.login(email = usernameCustomEditText.text, password = passwordCustomEditText.text)
+    }
+
+    @OnClick(R.id.auth_login_forget_password_button)
+    internal fun rememberPassword() {
+        presenter.rememberPassword()
+    }
+
+    private fun reloadLoginButtonState() {
+        val fieldsValid = usernameCustomEditText.isValid && passwordCustomEditText.isValid
+        val loading = loadingIndicator.visibility == View.VISIBLE
+        loginButton.isEnabled = fieldsValid && !loading
+    }
+
+    // ****  View Interface  ****
+
+    override fun setIsLoading(loading: Boolean) {
+        loadingIndicator.visibility = if (loading) View.VISIBLE else View.GONE
+        reloadLoginButtonState()
+    }
+
+}
+```
+###### String similarity: 70.8%
+
+----
+
+As you can see, code is basically the same except for some language differences (constructors, keywords,...) that can be quickly transpiled. Moreover, by using PlaytomicUI components and some of our extensions, code is similar even on the View layer. The main work on this part corresponds to laying out elements in Interface Builder (iOS) or in layout XMLs (Android).
 
 An interesting note to make here is that we could  have decided to write the Views in code or with tools like [Layout](https://github.com/schibsted/layout). That would make possible to reuse much more here as well, but we intentionally chose not to because we wanted to keep this part (the one the user actually sees and experiences) as standard as possible. This also allows us to use and follow platform components and conventions when desired and the de facto developer tools available, hence keeping a moderate learning curve and taking advantage to a full extent of our native development expertise.
 
-#### ILocationManager
-
-A common interface to get user’s location from GPS. Platform implementations use `LocationManager` and `GoogleServices`.
-
-```
-ILocationManager
-```
 
 ## The good, the bad and the ugly
 
