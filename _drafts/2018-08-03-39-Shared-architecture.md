@@ -56,11 +56,11 @@ So, we started building with one objective in mind: **reusability across native 
 
 What we did was to split the app in 3 main parts for both platforms:
 
-—-diagram——
+![Application architecture](/images/posts/39/diagram.png){:class="img-responsive"}
 
-*  **Anemone SDK**: framework used to connect to our backend and provide persistence. It offers Model, Service and some utilities.
+*  **Anemone SDK**: framework used to connect to our backend and provide persistence. It provides Model, Service and some utilities.
 *  **Playtomic UI**: framework with visual components like custom textfields, input validators, generic datasources/adapters, animations, ...
-*  **App code**: the application code, where our modules and  features are built. It includes and uses the former two.
+*  **Application code**: where our modules and features are built. It includes and uses the former two.
 
 We made sure that both frameworks offered the same public API (different implementations) and we also built a few facades over concepts that would be used across the app and that were provided differently on each platform, keeping the same API again. To name a few:
 
@@ -337,15 +337,66 @@ class TextFieldEmailValidatorBehavior(textView: TextView) : TextFieldRegexValida
 
 ### Application
 
-Our application code is divided into modules and managers.
+Our application code is divided into **modules** and **managers**.
 
-Each module can have its own internal architecture and communicates with the others through the use of Coordinators. For most of our modules we use an MVP pattern, as the presenter manipulation required is pretty small (remember our Anemone SDK deals with our network and persistence, so that would be the Entity and Repository in a VIPER architecture, and our Coordinators correspond to the Routers). In some cases, where there is business logic or complex data manipulation involved in clients, we also use Interactors. Nevertheless, modules could be implemented in MVVM or other patterns as long as they publish a Coordinator for the rest to consume.
+Each module can have its own internal architecture and communicates with the others through the use of **Coordinators**. For most of our modules we use an **MVP pattern**, as the presenter manipulation required is pretty small (remember our Anemone SDK deals with our network and persistence, so that would be the Entity and Repository in a VIPER architecture, and our Coordinators correspond to the Routers). In some cases, where there is business logic or complex data manipulation involved in clients, we also use **Interactors**. Nevertheless, modules could be implemented in MVVM or other patterns as long as they publish a Coordinator for the rest to consume.
 
 The benefit of splitting code this way is that our Presenters and Interactors have no platform dependencies so they can be transpiled with almost no work (especially using [SwiftKotlin](https://github.com/angelolloqui/SwiftKotlin)). Coordinators are also very similar and quick to transpile, leaving the Managers and the Views as the only parts that require specific work per platform.
 
-\_\_\_\_gif transpiling\_\_\_\_
+![Transpiling presenters](/images/posts/39/transpiling.gif){:class="img-responsive"}
 
 Let’s see a few examples of each of this:
+
+#### AuthCoordinator
+
+```
+class AuthCoordinator: IAuthCoordinator {
+
+    let managerProvider: IManagerProvider
+    let authenticationService: IAuthenticationService
+
+    init(managerProvider: IManagerProvider, authenticationService: IAuthenticationService) {
+        self.managerProvider = managerProvider
+        self.authenticationService = authenticationService
+    }
+
+    func loginIntent() -> INavigationIntent {
+        let presenter = LoginPresenter(
+            coordinator: self,
+            appEventManager: managerProvider.appEventManager,
+            messageBarManager: managerProvider.messageBarManager,
+            navigationManager: managerProvider.navigationManager,
+            authenticationService: authenticationService)
+        let loginController = R.storyboard.authStoryboard.loginViewController()
+
+        return PresenterNavigationIntent(presenter: presenter, viewController: loginController)
+    }
+
+    //.... others ....
+}
+```
+```
+class AuthCoordinator(
+        private val managerProvider: IManagerProvider,
+        private val authenticationService: IAuthenticationService)
+    : IAuthCoordinator {
+
+    override fun loginIntent(): INavigationIntent {
+        val presenter = LoginPresenter(
+                coordinator = this,
+                appEventManager = managerProvider.appEventManager,
+                messageBarManager = managerProvider.messageBarManager,
+                navigationManager = managerProvider.navigationManager,
+                authenticationService = authenticationService)
+        val loginFragment = LoginFragment()
+
+        return PresenterNavigationIntent(presenter, loginFragment)
+    }
+
+    //.... others ....
+}
+```
+###### String similarity: 76.11%
 
 #### LoginPresenter
 
@@ -445,57 +496,6 @@ class LoginPresenter(
 }
 ````
 ###### String similarity: 73.59%
-
-#### AuthCoordinator
-
-```
-class AuthCoordinator: IAuthCoordinator {
-
-    let managerProvider: IManagerProvider
-    let authenticationService: IAuthenticationService
-
-    init(managerProvider: IManagerProvider, authenticationService: IAuthenticationService) {
-        self.managerProvider = managerProvider
-        self.authenticationService = authenticationService
-    }
-
-    func loginIntent() -> INavigationIntent {
-        let presenter = LoginPresenter(
-            coordinator: self,
-            appEventManager: managerProvider.appEventManager,
-            messageBarManager: managerProvider.messageBarManager,
-            navigationManager: managerProvider.navigationManager,
-            authenticationService: authenticationService)
-        let loginController = R.storyboard.authStoryboard.loginViewController()
-
-        return PresenterNavigationIntent(presenter: presenter, viewController: loginController)
-    }
-
-    //.... others ....
-}
-```
-```
-class AuthCoordinator(
-        private val managerProvider: IManagerProvider,
-        private val authenticationService: IAuthenticationService)
-    : IAuthCoordinator {
-
-    override fun loginIntent(): INavigationIntent {
-        val presenter = LoginPresenter(
-                coordinator = this,
-                appEventManager = managerProvider.appEventManager,
-                messageBarManager = managerProvider.messageBarManager,
-                navigationManager = managerProvider.navigationManager,
-                authenticationService = authenticationService)
-        val loginFragment = LoginFragment()
-
-        return PresenterNavigationIntent(presenter, loginFragment)
-    }
-
-    //.... others ....
-}
-```
-###### String similarity: 76.11%
 
 #### LoginView
 
@@ -671,3 +671,6 @@ After 1.5 years working with the explained Shared Architecture, conventions and 
 * **Team scaling**: having such a small team helps when using this approach since it requires lots of communication between members. We are not sure how this would scale with more developers, but we suspect it won’t the day we have 6+ people or so. Besides, we are “forced” to hire (or teach) multiplatform experts as long as we want to keep sharing code efficiently.
 
 Overall, when looking back, we feel the decision has been **the correct one for our team**. That does not mean that using React would have been a mistake (probably not), but we are very satisfied with the results we are getting. Sure, we run into some issues every now and then, and we have had to invest a couple of months on making the abstractions (this time would have gone to learning React anyway), but **we have now the best UX possible with a very decent development speed**. Moreover, we are **not dependent on some third party framework or tool** (even SwiftKotlin could be removed and just transpile code manually, which is not that bad anyway) what gives us long term confidence, and we are **free to chose the application architecture** we prefer per module (MVP, MVVM, VIPER, REDUX,...). We can also leverage all of the **native goodies** the instant they are announced and we can use the **team knowledge to full extent**.
+
+
+> String similarity calculated with [Tools4Noobs](https://www.tools4noobs.com/online_tools/string_similarity/)
