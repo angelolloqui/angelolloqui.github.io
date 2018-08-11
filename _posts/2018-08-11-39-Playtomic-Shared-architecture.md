@@ -1,6 +1,13 @@
 ---
 layout: post
 title:  "Playtomic's Shared Architecture using Swift and Kotlin"
+date:   2018-08-11 11:30:34
+categories: 
+    - swift
+    - kotlin
+    - architecture
+    - swiftkotlin
+permalink: /blog/:title
 ---
 
 Choosing the technology stack is one of the first and most important decisions when starting any project from scratch. At [Playtomic](https://playtomic.io), we knew that we wanted to pick a stack for the mobile apps that would allow us to deliver the best possible experience given our limited resources available.
@@ -64,14 +71,14 @@ What we did was to split the app in 3 main parts for both platforms:
 
 We made sure that both frameworks offered the same public API (different implementations) and we also built a few facades over concepts that would be used across the app and that were provided differently on each platform, keeping the same API again. To name a few:
 
-*   `Promise`
-*   `HttpClient`
-*   `JSONObject`
-*   `NavigationManager`
-*   `LocationManager`
+*   `Promise` ([iOS](https://github.com/angelolloqui/blog-shared-architecure-swift/blob/master/promise/Promise.swift) [Android](https://github.com/angelolloqui/blog-shared-architecure-kotlin/blob/master/promise/Promise.kt))
+*   `HttpClient` ([iOS](https://github.com/angelolloqui/blog-shared-architecure-swift/blob/master/http/HttpClient.swift) [Android](https://github.com/angelolloqui/blog-shared-architecure-kotlin/blob/master/http/OkHttpClient.kt))
+*   `JSONObject` ([iOS](https://github.com/angelolloqui/blog-shared-architecure-swift/blob/master/json/JSONObject.swift) [Android](https://github.com/angelolloqui/blog-shared-architecure-kotlin/blob/master/json/JSONObject.kt))
+*   `NavigationManager` ([iOS](https://github.com/angelolloqui/blog-shared-architecure-swift/blob/master/manager/navigation/NavigationManager.swift) [Android](https://github.com/angelolloqui/blog-shared-architecure-kotlin/blob/master/manager/navigation/NavigationManager.kt))
+*   `LocationManager` ([iOS](https://github.com/angelolloqui/blog-shared-architecure-swift/blob/master/manager/location/LocationManager.swift) [Android](https://github.com/angelolloqui/blog-shared-architecure-kotlin/blob/master/manager/location/LocationManager.kt))
 *   ...
 
-> (You can check all code in these repos: [Swift]() [Kotlin]())
+> (You can check all code in these repos: [Swift](https://github.com/angelolloqui/blog-shared-architecure-swift) [Kotlin](https://github.com/angelolloqui/blog-shared-architecure-kotlin))
 
 We also picked the combination of Swift/Kotlin because of their enormous similarities and we used [SwiftKotlin](https://github.com/angelolloqui/SwiftKotlin) to minimize the time needed to transpile code from iOS to Android.
 
@@ -85,7 +92,7 @@ Our SDK basically offers Models and Services. It makes heavy use of networking a
 
 #### IHttpClient
 
-A common interface to deal with networking. On iOS, it is implemented with `NSURLSession` while Android uses `OKHttp` library
+A common interface to deal with networking. On iOS, [it is implemented with `NSURLSession`](https://github.com/angelolloqui/blog-shared-architecure-swift/blob/master/http/HttpClient.swift) while the equivalent [implementation in Android](https://github.com/angelolloqui/blog-shared-architecure-kotlin/blob/master/http/OkHttpClient.kt) uses `OKHttp` library
 
 ```
 public protocol IHttpClient {
@@ -344,6 +351,9 @@ Each module can have its own internal architecture and communicates with the oth
 The benefit of splitting code this way is that our Presenters and Interactors have no platform dependencies so they can be transpiled with almost no work (especially using [SwiftKotlin](https://github.com/angelolloqui/SwiftKotlin)). Coordinators are also very similar and quick to transpile, leaving the Managers and the Views as the only parts that require specific work per platform.
 
 ![Transpiling presenters](/images/posts/39/transpiling.gif){:class="img-responsive"}
+
+> See in the above screenshot how with just a minor fix on the Kotlin code we get a fully working Android version of a Presenter by transpiling the iOS one in about 15 seconds.
+
 
 Let’s see a few examples of each of this:
 
