@@ -128,7 +128,7 @@ extension IHttpClient {
 
 }
 ```
-````
+```
 interface IHttpClient {
     fun request(httpRequest: HttpRequest): Promise<HttpResponse>
 
@@ -154,7 +154,7 @@ interface IHttpClient {
 
 }
 
-````
+```
 ###### String similarity: 82.28%
 
 #### User
@@ -462,7 +462,7 @@ class LoginPresenter: Presenter<ILoginView> {
 
 }
 ```
-````
+```
 class LoginPresenter(
         private val coordinator: IAuthCoordinator,
         private val appEventManager: IAppEventManager,
@@ -504,7 +504,7 @@ class LoginPresenter(
     }
 
 }
-````
+```
 ###### String similarity: 73.59%
 
 #### LoginView
@@ -676,7 +676,7 @@ After 1.5 years working with the explained Shared Architecture, conventions and 
 
 ### The ugly
 
-* **Hybrid conventions**: Kotlin and Swift are very similar but they use different naming conventions. For example, in Kotlin/Java constants are written in upper case while in Swift they aren’t. Or the classical `I` prefix so common in Java does not exist in Swift (the closer would be to suffix `Protocol` to the name). As a result, when sharing code you have to either come with a mix of conventions or penalize the transpilation process with more manual edition to adapt from one to the other. We started with conventions per platform and we are gradually moving into a single convention that feels to us like the best of both worlds and which is becoming our de facto mobile team convention (but it would look “ugly” to external developers)
+* **Hybrid conventions**: Kotlin and Swift are very similar but they use different naming conventions. For example, in Kotlin/Java constants are written in upper case while in Swift they aren’t. Or the classical `I` prefix so common in Java does not exist in Swift (the closest would be to suffix `Protocol` to the name). As a result, when sharing code you have to either come with a mix of conventions or penalize the transpilation process with more manual edition to adapt from one to the other. We started with conventions per platform and we are gradually moving into a single convention that feels to us like the best of both worlds and which is becoming our de facto mobile team convention (but it would look “ugly” to external developers)
 * **Replicate changes manually**: transpilation works great when building new features because you can copy&paste the full transpiled code. However, when maintaining code, it is up to the developer to remember to apply the same change made on platform A into platform B. As a result, we have sometimes forgotten to replicate, resulting in some inconsistencies on app behavior. We are controlling that through PR, forcing both platforms to have the same kind of changes and reviewing them in parallel, but there is still the case for human error.
 * **Team scaling**: having such a small team helps when using this approach since it requires lots of communication between members. We are not sure how this would scale with more developers, but we suspect it won’t the day we have 6+ people or so. Besides, we are “forced” to hire (or teach) multiplatform experts as long as we want to keep sharing code efficiently.
 
