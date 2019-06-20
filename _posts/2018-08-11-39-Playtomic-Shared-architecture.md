@@ -7,6 +7,7 @@ categories:
     - kotlin
     - architecture
     - swiftkotlin
+    - playtomic
 permalink: /blog/:title
 ---
 
