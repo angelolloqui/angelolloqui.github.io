@@ -82,7 +82,7 @@ OK, so this simple code can crash when reading and writing the token in parallel
 
 ```
 final class MyClass {
-    private let syncQueue = DispatchQueue(label: "com.test.mySerialQueue")
+    private let syncQueue = DispatchQueue(label: "com.test.myQueue", attributes: .concurrent)
     private var _token: String
     var token: String {
         get {
@@ -91,7 +91,7 @@ final class MyClass {
             }
         }
         set {
-            syncQueue.sync {
+            syncQueue.async(flags: .barrier) {
                 _token = newValue
             }
         }
@@ -106,7 +106,7 @@ final class MyClass {
     }
 }
 ```
-As you can see, what we did is to protect the `var` by forcing serial access to it, so only 1 thread at a time can do read/write operations. The resulting code is much slower to execute, but it is now safe.
+As you can see, what we did is to protect the `var` by forcing serial writing to it, so multiple reading can happen but only 1 thread can execute a write at a time (the barrier waits for all previous readings to finish and postpones all subsequent read/write accesses till the write is done). The resulting code is slower to execute, but it is now safe.
 
 
 ## Final thoughts
