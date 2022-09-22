@@ -28,7 +28,7 @@ In April 2011, I moved to San Francisco (USA) and I worked as a mobile freelance
 
 In January 2012 I moved to Amsterdam (Netherlands) where I have worked at [Mobiquity](https://www.mobiquityinc.com/) as a **Senior iOS developer** and eventually as **iOS lead**.
 
-In July 2016, I relocated back to Madrid and in December I was part of the founders of [Playtomic](https://playtomic.io), a worlwide leader platform for booking racket sport courts with more than 1M transactions a month, where I am currently performing the role of Mobile Tech Lead.
+In July 2016, I relocated back to Madrid and in December I was involved in the **founding** of [Playtomic](https://playtomic.io), a worlwide leader platform for booking racket sport courts with more than 1M transactions a month, where I have developed the mobile apps from scratch and I am currently performing the role of **Mobile Tech Lead**.
 
 
 ## Work Experience
