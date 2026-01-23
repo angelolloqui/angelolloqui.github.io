@@ -10,7 +10,7 @@ categories:
 permalink: /blog/:title
 ---
 
-At Playtomic, we believe in sharing our engineering journey with the broader tech community. Recently, we conducted a comprehensive experiment to compare Claude Code against our existing standard, Cursor, to evaluate how they fit into our diverse development workflows. After an intensive six-week trial during September and October 2025, we gathered some valuable insights that we hope will help other teams navigating similar decisions.
+At Playtomic, we believe in sharing our engineering journey with the broader tech community. Recently, we conducted a comprehensive experiment to compare Claude Code against our existing standard, Cursor, to evaluate how they fit into our diverse development workflows. This follows our [previous experiment with AI code review tools](/blog/Experimenting-with-AI-Code-Review-Tools-at-Playtomic), where we evaluated tools like BugBot, CodeRabbit, and GitHub Copilot. After an intensive six-week trial during September and October 2025, we gathered some valuable insights that we hope will help other teams navigating similar decisions.
 
 ## The Experiment
 
