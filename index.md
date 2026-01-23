@@ -14,10 +14,10 @@ tags: resume
 </div>
 
 ## Principal Roles
-Mobile architect / Full Stack developer / SCRUM master
+Principal AI Engineer / Mobile Architect / Full Stack Developer
 
 ## Summary & Bio
-Computer engineer with a Master in Web technologies. Specialized in **mobile application development**, with broad experience using **Agile methodologies** and **Certified Scrum Master**. Active [open source contributor](/open-source) and [blogger](/blog), with interest as well in backend development and machine learning.
+Computer engineer with a Master in Web technologies. Specialized in **mobile application development** and **AI Engineering**, with broad experience using **Agile methodologies** and **Certified Scrum Master**. Active [open source contributor](/open-source) and [blogger](/blog), with interest as well in full stack development.
 
 I started my career as an Oracle trainee (2006-2007) developing internal applications for the sales department, where I was given with the "**Oracle's best trainee of the year**" award.
 
@@ -28,13 +28,16 @@ In April 2011, I moved to San Francisco (USA) and I worked as a mobile freelance
 
 In January 2012 I moved to Amsterdam (Netherlands) where I have worked at [Mobiquity](https://www.mobiquityinc.com/) as a **Senior iOS developer** and eventually as **iOS lead**.
 
-In July 2016, I relocated back to Madrid and in December I was involved in the **founding** of [Playtomic](https://playtomic.io), a worlwide leader platform for booking racket sport courts with more than 1M transactions a month, where I have developed the mobile apps from scratch and I am currently performing the role of **Mobile Tech Lead**.
+In July 2016, I relocated back to Madrid and in December I was involved in the **founding** of [Playtomic](https://playtomic.io), a worldwide leader platform for booking racket sport courts with more than 1M transactions a month. I developed the mobile apps from scratch and served as Mobile Tech Lead until 2025, when I transitioned to my current role as **Principal AI Engineer**.
 
 
 ## Work Experience
 
-`2017-`
-__Mobile Tech Lead, [Playtomic](https://playtomic.io), Madrid__, Playtomic is the worldwide leader platform for booking and organizing racket sport games with more than 1M transactions each month and millions of active users. As a founder I have been involved in all platform development from scratch, and I am currently performing the role of mobile lead, where some of my main responsibilities include architectural decisions, automation, platform development, innovation, code practices and team hiring. Besides the mobile area, I have participated on many backend service decisions, definitions and development, as well as contributed in the company culture around Agile practices.
+`2025-`
+__Principal AI Engineer, [Playtomic](https://playtomic.io), Madrid__, I am leading the AI initiatives at Playtomic, focusing on researching and implementing LLMs and generative AI solutions to automate processes, providing tools for the team and enhancing the platform's capabilities.
+
+`2017-2025`
+__Mobile Tech Lead, [Playtomic](https://playtomic.io), Madrid__, Playtomic is the worldwide leader platform for booking and organizing racket sport games with more than 1M transactions each month and millions of active users. As a founder I have been involved in all platform development from scratch, and I performed the role of mobile lead, where some of my main responsibilities included architectural decisions, automation, platform development, innovation, code practices and team hiring. Besides the mobile area, I have participated on many backend service decisions, definitions and development, as well as contributed in the company culture around Agile practices.
 
 `2012-16`
 __Senior iOS Developer, [Mobiquity](https://www.mobiquityinc.com/), Amsterdam__, I started as Senior iOS developer and eventually became the iOS lead in Amsterdam. As part of my role, I developed mobile apps, coached juniors/medium developers, established development guidelines and R&D processes, participated in workshops with customers and helped in the development of the backend tasks related with mobile projects.
