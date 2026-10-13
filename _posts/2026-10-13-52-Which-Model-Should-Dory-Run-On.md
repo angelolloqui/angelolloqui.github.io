@@ -11,8 +11,6 @@ permalink: /blog/:title
 
 We put eight new AI models through the questions people actually ask Dory, Playtomic's internal AI agent, and had two AI judges from different companies check every answer against the code and the data.
 
-*Figures as of 13 October 2026.*
-
 ## Meet Dory
 
 Dory is Playtomic's AI agent for the whole company, and it lives in Slack. Engineers use it a lot, but most of the people asking it things work in customer care, product, marketing and other teams. Dory finds answers the way a colleague would: it queries Looker, reads code on GitHub, checks Linear, Notion and Datadog, and replies in the thread.
