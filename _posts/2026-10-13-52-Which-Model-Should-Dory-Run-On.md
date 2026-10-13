@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Which model should Dory run on? We tested eight on real questions"
-date:   2026-10-13 10:00:00
+date:   2026-10-13 09:00:00
 categories:
     - ai
     - engineering
